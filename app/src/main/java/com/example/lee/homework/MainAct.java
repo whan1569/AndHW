@@ -10,10 +10,16 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainAct extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor stepCountSensor;
     TextView tvStepCount;
+    JSONArray histroy = new JSONArray();
+    int hisi=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,11 @@ public class MainAct extends AppCompatActivity implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             tvStepCount.setText("Step Count : " + String.valueOf(event.values[0]));
+            if(event.values[0]%100==0){
+                GetLocate lo=new GetLocate();
+                histroy.put(lo.getLocate());
+                hisi++;
+            }
         }
     }
     @Override
